@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UI Kit - Componentes Web</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>UI Kit - Componentes HTML & CSS</h1>
+    <div class="controls">
+      <div class="color-pickers">
+        <div class="picker">
+          <label for="primaryColorPicker">Color primario:</label>
+          <input type="color" id="primaryColorPicker" value="#0078b7" />
+        </div>
+        <div class="picker">
+          <label for="secondaryColorPicker">Color secundario:</label>
+          <input type="color" id="secondaryColorPicker" value="#17c3b2" />
+        </div>
+      </div>
+      <div class="dark-mode-switch">
+        <label class="switch">
+          <input type="checkbox" id="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+        <span>Modo Oscuro</span>
+      </div>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <nav>
+      <a href="#navbar">Navbar</a>
+      <a href="#buttons">Botones</a>
+      <a href="#forms">Formularios</a>
+      <a href="#alerts">Alertas</a>
+      <a href="#cards">Cards</a>
+      <a href="#switches">Switches</a>
+      <a href="#tabs">Tabs</a>
+      <a href="#progress">Progreso</a>
+      <a href="#modal">Modal</a>
+      <a href="#tooltips">Tooltips</a>
+      <a href="#badges">Badges</a>
+    </nav>
+  </aside>
+
+  <main>
+    <!-- NAVBAR -->
+    <section id="navbar">
+      <h2>Navbar</h2>
+      <nav class="navbar">
+        <a href="#">Inicio</a>
+        <a href="#">Servicios</a>
+        <a href="#">Contacto</a>
+      </nav>
+    </section>
+
+    <!-- BOTONES -->
+    <section id="buttons">
+      <h2>Botones</h2>
+      <button class="btn btn-primary">Primario</button>
+      <button class="btn btn-secondary">Secundario</button>
+      <button class="btn btn-outline">Contorno</button>
+    </section>
+
+    <!-- FORMULARIOS -->
+    <section id="forms">
+      <h2>Formulario</h2>
+      <div class="form-group">
+        <label for="nombre">Nombre:</label><br />
+        <input type="text" id="nombre" placeholder="Ingrese su nombre" />
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" /> Acepto los términos</label>
+      </div>
+      <div class="form-group">
+        <label><input type="radio" name="opcion" /> Opción A</label>
+        <label><input type="radio" name="opcion" /> Opción B</label>
+      </div>
+      <div class="form-group">
+        <label for="pais">País:</label><br />
+        <select id="pais">
+          <option>Argentina</option>
+          <option>Uruguay</option>
+          <option>Chile</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- ALERTAS -->
+    <section id="alerts">
+      <h2>Alertas</h2>
+      <div class="alert alert-info">Esto es una alerta informativa.</div>
+      <div class="alert alert-success">Operación realizada con éxito.</div>
+      <div class="alert alert-warning">Advertencia: Verifique los datos.</div>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards">
+      <h2>Cards</h2>
+      <div class="card">
+  <h3>Título del card</h3>
+  <p class="short-text">Ejemplo breve de tarjeta...</p>
+  <p class="full-text" style="display:none;">Contenido completo de la tarjeta que se muestra al hacer click en "Leer más".</p>
+  <div class="card-buttons">
+    <button class="btn btn-primary read-more">Leer más</button>
+    <button class="btn btn-secondary close-card" style="display:none;">Cerrar card</button>
+  </div>
+</div>
+
+
+    </section>
+
+    <!-- SWITCHES -->
+    <section id="switches">
+      <h2>Switch / Toggle</h2>
+      <label class="switch">
+        <input type="checkbox" checked />
+        <span class="slider"></span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" />
+        <span class="slider"></span>
+      </label>
+    </section>
+
+    <!-- TABS -->
+    <section id="tabs">
+      <h2>Tabs</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab1">Tab 1</button>
+        <button class="tab-btn" data-tab="tab2">Tab 2</button>
+        <button class="tab-btn" data-tab="tab3">Tab 3</button>
+      </div>
+      <div class="tab-content active" id="tab1">
+        <p>Contenido de la pestaña 1.</p>
+      </div>
+      <div class="tab-content" id="tab2">
+        <p>Contenido de la pestaña 2.</p>
+      </div>
+      <div class="tab-content" id="tab3">
+        <p>Contenido de la pestaña 3.</p>
+      </div>
+    </section>
+
+    <!-- PROGRESS BAR -->
+    <section id="progress">
+      <h2>Barra de progreso</h2>
+      <div class="progress">
+        <div class="progress-bar" style="width: 60%">60%</div>
+      </div>
+    </section>
+
+    <!-- MODAL -->
+    <section id="modal">
+      <h2>Modal</h2>
+      <button id="openModal" class="btn btn-primary">Abrir Modal</button>
+
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3>Título del Modal</h3>
+          <p>Este es el contenido dentro del modal.</p>
+          <button class="btn btn-secondary">Aceptar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLTIP -->
+    <section id="tooltips">
+      <h2>Tooltips</h2>
+      <button class="btn btn-outline tooltip" data-tooltip="Soy un tooltip">Pasa el mouse</button>
+    </section>
+
+    <!-- BADGES -->
+    <section id="badges">
+      <h2>Badges / Chips</h2>
+      <span class="badge primary">Nuevo</span>
+      <span class="badge secondary">Destacado</span>
+      <span class="badge outline">Beta</span>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
