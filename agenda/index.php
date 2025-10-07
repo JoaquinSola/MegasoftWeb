@@ -79,6 +79,9 @@ while($row = $result->fetch_assoc()) {
         <a href="../ui-kit.html#badges" class="d-block mb-2" data-bs-dismiss="offcanvas">Badges</a>
         <a href="../ui-kit.html#buttons-mud" class="d-block mb-2" data-bs-dismiss="offcanvas">Botones Variados</a>
         <a href="./index.php" class="d-block mb-2" data-bs-dismiss="offcanvas">Agenda</a>
+        <a href="../ui-kit.html##carousel" class="d-block mb-2" data-bs-dismiss="offcanvas">Carrusel</a>
+        <a href="../ui-kit.html##chat" class="d-block mb-2" data-bs-dismiss="offcanvas">Chat</a>
+        <a href="../ui-kit.html##collapse" class="d-block mb-2" data-bs-dismiss="offcanvas">Collapse</a>
       </nav>
     </div>
   </div>
