@@ -29,28 +29,7 @@ while($row = $result->fetch_assoc()) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="../style.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <style>
-    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-    .day-card { min-height: 120px; border: 1px solid #ccc; padding: 5px; border-radius: 5px; position: relative; background-color: var(--secondary-color, #f8f9fa); }
-    .day-number { font-weight: bold; }
-    .event { background-color: var(--primary-color, #0d6efd); color: white; padding: 2px 6px; border-radius: 4px; margin: 2px 0; font-size: 0.85rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .event:hover::after {
-        content: attr(data-desc);
-        position: absolute;
-        left: 0;
-        top: 100%;
-        background: var(--primary-color, #0d6efd);
-        color: #fff;
-        padding: 4px 8px;
-        border-radius: 4px;
-        white-space: normal;
-        width: max-content;
-        max-width: 200px;
-        z-index: 10;
-    }
-    .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 5px; }
-    main { padding: 1rem; }
-  </style>
+
 </head>
 <body>
   <header>
@@ -79,9 +58,20 @@ while($row = $result->fetch_assoc()) {
 
   <aside id="sidebar" class="sidebar">
     <nav>
-      <a href="../ui-kit.html">Inicio</a>
+      <a href="../ui-kit.html#navbar">Navbar</a>
+      <a href="../ui-kit.html#buttons">Botones</a>
+      <a href="../ui-kit.html#forms">Formularios</a>
+      <a href="../ui-kit.html#alerts">Alertas</a>
+      <a href="../ui-kit.html#cards">Cards</a>
+      <a href="../ui-kit.html#switches">Switches</a>
+      <a href="../ui-kit.html#tabs">Tabs</a>
+      <a href="../ui-kit.html#progress">Progreso</a>
+      <a href="../ui-kit.html#modal">Modal</a>
+      <a href="../ui-kit.html#tooltips">Tooltips</a>
+      <a href="../ui-kit.html#badges">Badges</a>
+      <a href="../ui-kit.html#buttons-mud">Botones Variados</a>
       <a href="#">Agenda</a>
-      <!-- Más links según necesidad -->
+
     </nav>
   </aside>
   <div class="backdrop" aria-hidden="true"></div>
@@ -185,5 +175,6 @@ function generateCalendar() {
 loadSettings();
 generateCalendar();
 </script>
+<script src="../main.js"></script>
 </body>
 </html>

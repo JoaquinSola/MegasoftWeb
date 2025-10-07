@@ -18,12 +18,13 @@
   transition: background 0.2s, color 0.2s;
 }
 .modern-navbar .dropdown-menu .dropdown-item:hover {
-  background: #17c3b2;
+  background: var(--secondary-color);
   color: #fff;
 }
 /* Modern vibrant navbar styles */
 .modern-navbar {
-  background: linear-gradient(90deg, #0078b7 0%, #17c3b2 100%);
+  /* Usar variables para que el navbar refleje el color primario/secundario global */
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   border: none;
   box-shadow: 0 4px 24px 0 rgba(23,195,178,0.15);
   transition: background 0.3s;
@@ -58,7 +59,8 @@
   color: #ffe066 !important;
 }
 .modern-navbar .btn-gradient {
-  background: linear-gradient(90deg, #ffe066 0%, #17c3b2 100%);
+  /* usar variables para mantener consistencia con la paleta global */
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: #222;
   border: none;
   font-weight: 600;
@@ -67,8 +69,8 @@
   transition: background 0.2s, color 0.2s;
 }
 .modern-navbar .btn-gradient:hover {
-  background: linear-gradient(90deg, #17c3b2 0%, #ffe066 100%);
-  color: #0078b7;
+  background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  color: var(--primary-color);
 }
 .modern-navbar .glassy-input {
   background: rgba(255,255,255,0.25);
@@ -83,7 +85,7 @@
   outline: none;
 }
 :root {
-  --primary-color: #0078b7;
+  --primary-color: #007bff;
   --secondary-color: #17c3b2;
 
   --text-color: #222;
@@ -631,6 +633,28 @@ section#buttons h2 {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/*CALENDARIO*/
+   .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+    .day-card { min-height: 120px; border: 1px solid #ccc; padding: 5px; border-radius: 5px; position: relative; background-color: var(--secondary-color, #f8f9fa); }
+    .day-number { font-weight: bold; }
+    .event { background-color: var(--primary-color, #0d6efd); color: white; padding: 2px 6px; border-radius: 4px; margin: 2px 0; font-size: 0.85rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .event:hover::after {
+        content: attr(data-desc);
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background: var(--primary-color, #0d6efd);
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        white-space: normal;
+        width: max-content;
+        max-width: 200px;
+        z-index: 10;
+    }
+    .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; margin-bottom: 5px; }
+    main { padding: 1rem; }
 
 
 

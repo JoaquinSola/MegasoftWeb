@@ -1,11 +1,10 @@
 // Scroll en web
-
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
     const targetEl = document.querySelector(this.getAttribute('href'));
     if(targetEl){
-      const yOffset = -80; // offset de 50px
+      const yOffset = -80; // offset de 80px
       const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
@@ -23,13 +22,46 @@ const sidebar = document.getElementById('sidebar');
 const backdrop = document.querySelector('.backdrop');
 
 // Cambiar color primario y secundario dinámicamente
-primaryPicker.addEventListener("input", e => root.style.setProperty("--primary-color", e.target.value));
-secondaryPicker.addEventListener("input", e => root.style.setProperty("--secondary-color", e.target.value));
+function applyPrimary(color){ root.style.setProperty("--primary-color", color); }
+function applySecondary(color){ root.style.setProperty("--secondary-color", color); }
+
+// Guardar/Aplicar desde pickers y localStorage
+if(primaryPicker){
+  primaryPicker.addEventListener("input", e => {
+    applyPrimary(e.target.value);
+    // guardar con la clave que usa agenda
+    localStorage.setItem('agendaPrimary', e.target.value);
+    // también guardar claves genéricas por compatibilidad
+    localStorage.setItem('primaryColor', e.target.value);
+  });
+}
+if(secondaryPicker){
+  secondaryPicker.addEventListener("input", e => {
+    applySecondary(e.target.value);
+    localStorage.setItem('agendaSecondary', e.target.value);
+    localStorage.setItem('secondaryColor', e.target.value);
+  });
+}
 
 // Modo oscuro
-darkModeToggle.addEventListener("change", e => {
-  document.body.classList.toggle("dark", e.target.checked);
-});
+if(darkModeToggle){
+  darkModeToggle.addEventListener("change", e => {
+    document.body.classList.toggle("dark", e.target.checked);
+    localStorage.setItem('agendaDark', e.target.checked ? '1' : '0');
+  });
+}
+
+// Cargar valores guardados al inicio (compatibles con agenda)
+(function loadSharedColors(){
+  try{
+    const p = localStorage.getItem('agendaPrimary') || localStorage.getItem('primaryColor');
+    const s = localStorage.getItem('agendaSecondary') || localStorage.getItem('secondaryColor');
+    const dark = (localStorage.getItem('agendaDark') === '1');
+    if(p){ applyPrimary(p); if(primaryPicker) primaryPicker.value = p; }
+    if(s){ applySecondary(s); if(secondaryPicker) secondaryPicker.value = s; }
+    if(darkModeToggle){ darkModeToggle.checked = dark; document.body.classList.toggle('dark', dark); }
+  }catch(e){ console.warn('No se pudieron cargar colores compartidos', e); }
+})();
 
 // Sidebar mobile toggle
 function closeSidebar() {
@@ -153,6 +185,7 @@ if (toggleArrows) {
     updateArrows(toggleArrows.checked);
   });
 }
+
 
 
 
