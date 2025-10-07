@@ -2,6 +2,9 @@ const root = document.documentElement;
 const primaryPicker = document.getElementById("primaryColorPicker");
 const secondaryPicker = document.getElementById("secondaryColorPicker");
 const darkModeToggle = document.getElementById("darkModeToggle");
+const menuToggleBtn = document.querySelector('.menu-toggle');
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.querySelector('.backdrop');
 
 // Cambiar color primario y secundario dinámicamente
 primaryPicker.addEventListener("input", e => root.style.setProperty("--primary-color", e.target.value));
@@ -10,6 +13,42 @@ secondaryPicker.addEventListener("input", e => root.style.setProperty("--seconda
 // Modo oscuro
 darkModeToggle.addEventListener("change", e => {
   document.body.classList.toggle("dark", e.target.checked);
+});
+
+// Sidebar mobile toggle
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  backdrop.classList.remove('show');
+  if (menuToggleBtn) menuToggleBtn.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('menu-open');
+}
+
+if (menuToggleBtn) {
+  menuToggleBtn.addEventListener('click', () => {
+    const opening = !sidebar.classList.contains('open');
+    sidebar.classList.toggle('open');
+    backdrop.classList.toggle('show', opening);
+    menuToggleBtn.setAttribute('aria-expanded', String(opening));
+    document.body.classList.toggle('menu-open', opening);
+  });
+}
+
+if (backdrop) {
+  backdrop.addEventListener('click', closeSidebar);
+}
+
+// Close on Esc key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+    closeSidebar();
+  }
+});
+
+// Close when clicking a nav link (improves UX on mobile)
+document.querySelectorAll('.sidebar a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (sidebar.classList.contains('open')) closeSidebar();
+  });
 });
 
 // Modal
@@ -44,4 +83,64 @@ readMoreBtn.addEventListener("click", () => {
   fullText.style.display = "block";
   readMoreBtn.style.display = "none";
 });
+
+// Toggle que cambia de vertical a horizantal Buttons Orientation
+if (window.bootstrap) {
+  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+    new bootstrap.Tooltip(el);
+  });
+}
+
+
+const toggle = document.getElementById("toggleOrientation");
+const buttonContainer = document.getElementById("buttonContainer");
+const label = document.querySelector('label[for="toggleOrientation"]');
+
+toggle.addEventListener("change", () => {
+  if (toggle.checked) {
+    buttonContainer.classList.remove("flex-row", "flex-wrap");
+    buttonContainer.classList.add("flex-column", "align-items-start");
+    label.textContent = "Vertical";
+  } else {
+    buttonContainer.classList.remove("flex-column", "align-items-start");
+    buttonContainer.classList.add("flex-row", "flex-wrap");
+    label.textContent = "Horizontal";
+  }
+});
+
+// Inicialización segura de carousels
+const horizontalCarouselEl = document.querySelector('#horizontalCarousel');
+if (horizontalCarouselEl) {
+  new bootstrap.Carousel(horizontalCarouselEl, { interval: 4500, ride: 'carousel' });
+}
+
+const verticalCarouselEl = document.querySelector('#verticalCarousel');
+if (verticalCarouselEl) {
+  new bootstrap.Carousel(verticalCarouselEl, { interval: 4500, ride: 'carousel' });
+}
+
+// Toggle mostrar/ocultar flechas
+const toggleArrows = document.getElementById('toggleArrows');
+if (toggleArrows) {
+  const updateArrows = (show) => {
+    document.querySelectorAll('.carousel').forEach(carousel => {
+      carousel.querySelectorAll('.carousel-control-prev, .carousel-control-next')
+        .forEach(control => control.style.display = show ? 'flex' : 'none');
+    });
+  }
+
+  // Ejecutar al cargar
+  updateArrows(toggleArrows.checked);
+
+  // Ejecutar al cambiar toggle
+  toggleArrows.addEventListener('change', () => {
+    updateArrows(toggleArrows.checked);
+  });
+}
+
+
+
+
+
+
 
