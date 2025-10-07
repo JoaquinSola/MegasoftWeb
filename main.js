@@ -1,3 +1,19 @@
+// Scroll en web
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetEl = document.querySelector(this.getAttribute('href'));
+    if(targetEl){
+      const yOffset = -80; // offset de 50px
+      const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  });
+});
+
+
+
 const root = document.documentElement;
 const primaryPicker = document.getElementById("primaryColorPicker");
 const secondaryPicker = document.getElementById("secondaryColorPicker");

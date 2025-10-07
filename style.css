@@ -590,6 +590,49 @@ section#buttons h2 {
   pointer-events: none;
 }
 
+/*CHAT*/
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chat-bubble {
+  padding: 12px 18px;
+  border-radius: 20px;
+  max-width: 75%;
+  font-size: 1rem;
+  line-height: 1.4;
+  position: relative;
+  word-wrap: break-word;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Chat a la izquierda */
+.chat-bubble.start {
+  background-color: var(--secondary-color, #26c6da);
+  color: #fff;
+  align-self: flex-start;
+  border-bottom-left-radius: 0;
+}
+
+/* Chat a la derecha */
+.chat-bubble.end {
+  background-color: var(--primary-color, #1e88e5);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 0;
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
 
 
 
@@ -668,4 +711,65 @@ section#buttons h2 {
   .navbar a { padding: 0.7rem 1rem; }
   .tabs { flex-wrap: wrap; }
   .modal-content { width: 94%; margin: 25% auto; }
+}
+
+/* Estilos específicos para agenda/aside */
+/* Solo reglas de layout no intrusivas para evitar afectar otras secciones */
+.sidebar {
+  width: 220px;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+/* Contenedor principal cuando se usa sidebar + contenido */
+.agenda-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .sidebar { width: 200px; }
+  .calendar { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .agenda-grid { grid-template-columns: 1fr; }
+  .sidebar { width:100%; position:relative; }
+}
+
+/* ======= AGENDA / CALENDARIO ======= */
+.calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+.weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight:600; color:var(--primary-color); margin-bottom:8px; }
+.day-card { min-height: 110px; border: 1px solid var(--border-color); padding: 8px; border-radius: 10px; position: relative; background: var(--card-bg); transition: transform 0.15s ease, box-shadow 0.15s ease; overflow: hidden; }
+.day-card:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+.day-number { font-weight:700; color: var(--text-color); margin-bottom:6px; }
+.event { display:block; padding:6px 8px; border-radius:8px; margin-bottom:6px; color:#fff; font-size:0.9rem; cursor:pointer; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; }
+.event.small { font-size:0.82rem; padding:4px 6px; border-radius:6px; }
+.event.primary { background: var(--primary-color); background: linear-gradient(90deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 70%, black 30%)); }
+.event.secondary { background: var(--secondary-color); background: linear-gradient(90deg, var(--secondary-color), color-mix(in srgb, var(--secondary-color) 70%, black 30%)); }
+.event.ghost { background: transparent; color: var(--text-color); border:1px dashed var(--border-color); }
+
+/* tooltip simple usando atributo data-desc */
+.event[data-desc]:hover::after {
+  content: attr(data-desc);
+  position: absolute;
+  left: 8px;
+  top: calc(100% + 6px);
+  background: var(--primary-color);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: normal;
+  max-width: 260px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  z-index: 40;
+}
+
+/* adaptaciones para calendario en pantallas pequeñas */
+@media (max-width: 720px) {
+  .calendar { grid-template-columns: repeat(2, 1fr); }
+  .weekdays { display:none; }
 }
