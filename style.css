@@ -171,10 +171,10 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1rem 1.25rem;
   position: fixed;
-  width: calc(100% - 220px);
-  left: 220px;
+  width: 100%;
+  left: 0;
   top: 0;
   z-index: 12;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -202,13 +202,21 @@ header h1 { font-size: 1.3rem; font-weight: 500; }
 
 /* ======= MAIN ======= */
 main {
-  margin-left: 220px;
+  margin-left: 0;
   margin-top: 80px;
   padding: 1.5rem;
-  width: calc(100% - 220px);
-  max-width: 1100px;
+  width: 100%;
+  max-width: none;
   transition: background 0.3s, color 0.3s;
   overflow: visible !important;
+}
+
+/* Make the main container full-width now that sidebar is removed */
+main > .container {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 body.dark main { color: var(--dark-text-color); }
@@ -657,6 +665,24 @@ section#buttons h2 {
     main { padding: 1rem; }
 
 
+    /*collapse*/
+    .collapse-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  padding: 0 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+/* Estado expandido */
+.collapse-content.show {
+  max-height: 200px; /* ajustable según el contenido */
+  padding: 12px;
+}
+
+
+
 
 
 
@@ -723,6 +749,9 @@ section#buttons h2 {
     max-width: 100%;
   }
 
+  /* When sidebar is hidden on mobile, give main some top padding so content isn't hidden under header */
+  main { padding-top: 1.25rem; }
+
   /* Navbar wraps on medium screens */
   .navbar { flex-wrap: wrap; }
   .navbar a { flex: 1 1 auto; min-width: 120px; }
@@ -737,21 +766,21 @@ section#buttons h2 {
   .modal-content { width: 94%; margin: 25% auto; }
 }
 
-/* Estilos específicos para agenda/aside */
-/* Solo reglas de layout no intrusivas para evitar afectar otras secciones */
+/* Estilos para versiones con sidebar (ahora neutralizados ya que usamos offcanvas) */
+/* Mantengo las clases por compatibilidad pero no afectan el layout principal */
 .sidebar {
-  width: 220px;
-  padding: 1rem;
-  background: var(--card-bg);
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
+  /* sidebar removed — keep minimal safe styles for fallbacks */
+  width: 0; /* neutral */
+  padding: 0;
+  background: transparent;
+  border: none;
+  height: auto;
+  overflow: visible;
 }
 
-/* Contenedor principal cuando se usa sidebar + contenido */
 .agenda-grid {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 24px;
+  display: block; /* neutral: no two-column layout anymore */
+  gap: 0;
 }
 
 @media (max-width: 900px) {
@@ -776,6 +805,14 @@ section#buttons h2 {
 .event.secondary { background: var(--secondary-color); background: linear-gradient(90deg, var(--secondary-color), color-mix(in srgb, var(--secondary-color) 70%, black 30%)); }
 .event.ghost { background: transparent; color: var(--text-color); border:1px dashed var(--border-color); }
 
+/* Evento marcado como terminado */
+.event.finished {
+  background: linear-gradient(90deg, #e74c3c, #c0392b) !important;
+  color: #fff !important;
+  opacity: 0.95;
+  box-shadow: none;
+}
+
 /* tooltip simple usando atributo data-desc */
 .event[data-desc]:hover::after {
   content: attr(data-desc);
@@ -796,4 +833,61 @@ section#buttons h2 {
 @media (max-width: 720px) {
   .calendar { grid-template-columns: repeat(2, 1fr); }
   .weekdays { display:none; }
+}
+
+/* Small responsive helpers */
+@media (max-width: 960px) {
+  :root { --header-offset: 72px; }
+}
+
+/* Mobile offcanvas (hamburger menu) styling */
+#mobileSidebar.offcanvas {
+  --bs-offcanvas-width: 280px; /* default width */
+}
+#mobileSidebar .offcanvas-header {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+}
+#mobileSidebar .offcanvas-title {
+  color: #fff; font-weight:600;
+}
+#mobileSidebar .btn-close {
+  filter: invert(1) brightness(1.4);
+  opacity: 0.95;
+}
+#mobileSidebar .offcanvas-body {
+  background: var(--card-bg);
+  padding: 1rem 0.8rem;
+}
+#mobileSidebar nav a {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, transform 0.12s;
+}
+#mobileSidebar nav a:hover {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 90%, white 10%), var(--primary-color));
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Hamburger button styles (active state when aria-expanded=true) */
+.menu-toggle {
+  display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; border:1px solid rgba(0,0,0,0.08); background:transparent; color:var(--text-color); font-size:1.05rem; cursor:pointer;
+}
+.menu-toggle[aria-expanded="true"] {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Ensure offcanvas content scrolls nicely */
+#mobileSidebar .offcanvas-body { overflow-y: auto; max-height: calc(100vh - 80px); }
+
+/* Override: remove z-index from Bootstrap modal backdrop so it doesn't cover fixed UI layers */
+.modal-backdrop {
+  z-index: auto !important;
 }

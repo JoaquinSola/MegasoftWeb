@@ -11,7 +11,7 @@
 </head>
 <body>
   <header>
-    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="sidebar">☰</button>
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileSidebar" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">☰</button>
     <h1>UI Kit - Megasoft</h1>
     <div class="controls">
       <div class="color-pickers">
@@ -34,24 +34,33 @@
     </div>
   </header>
 
-  <aside id="sidebar" class="sidebar">
-    <nav>
-      <a href="#navbar">Navbar</a>
-      <a href="#buttons">Botones</a>
-      <a href="#forms">Formularios</a>
-      <a href="#alerts">Alertas</a>
-      <a href="#cards">Cards</a>
-      <a href="#switches">Switches</a>
-      <a href="#tabs">Tabs</a>
-      <a href="#progress">Progreso</a>
-      <a href="#modal">Modal</a>
-      <a href="#tooltips">Tooltips</a>
-      <a href="#badges">Badges</a>
-      <a href="#buttons-mud">Botones Variados</a>
-      <a href="./agenda/index.php">Agenda</a>
+  <!-- aside removed: hamburger offcanvas is used for all screen sizes -->
+  
+  <!-- Mobile offcanvas sidebar -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="mobileSidebarLabel">Menú</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body">
+      <nav>
+  <a href="#navbar" class="d-block mb-2" data-bs-dismiss="offcanvas">Navbar</a>
+  <a href="#buttons" class="d-block mb-2" data-bs-dismiss="offcanvas">Botones</a>
+  <a href="#forms" class="d-block mb-2" data-bs-dismiss="offcanvas">Formularios</a>
+  <a href="#alerts" class="d-block mb-2" data-bs-dismiss="offcanvas">Alertas</a>
+  <a href="#cards" class="d-block mb-2" data-bs-dismiss="offcanvas">Cards</a>
+  <a href="#switches" class="d-block mb-2" data-bs-dismiss="offcanvas">Switches</a>
+  <a href="#tabs" class="d-block mb-2" data-bs-dismiss="offcanvas">Tabs</a>
+  <a href="#progress" class="d-block mb-2" data-bs-dismiss="offcanvas">Progreso</a>
+  <a href="#modal" class="d-block mb-2" data-bs-dismiss="offcanvas">Modal</a>
+  <a href="#tooltips" class="d-block mb-2" data-bs-dismiss="offcanvas">Tooltips</a>
+  <a href="#badges" class="d-block mb-2" data-bs-dismiss="offcanvas">Badges</a>
+  <a href="#buttons-mud" class="d-block mb-2" data-bs-dismiss="offcanvas">Botones Variados</a>
+  <a href="./agenda/index.php" class="d-block mb-2" data-bs-dismiss="offcanvas" onclick="window.location.href=this.href;">Agenda</a>
 
-    </nav>
-  </aside>
+      </nav>
+    </div>
+  </div>
 
   <div class="backdrop" aria-hidden="true"></div>
 
@@ -390,6 +399,27 @@
     </div>
   </div>
 </section>
+
+
+<!-- COLLAPSE -->
+<section class="container my-5">
+  <h2 class="text-primary fw-semibold mb-4">Collapse Demo</h2>
+
+  <div class="card p-4 shadow-sm">
+    <!-- Botón -->
+    <button id="collapseBtn" class="btn btn-primary mb-2">
+      Colapsar
+    </button>
+
+    <hr />
+
+    <!-- Contenido colapsable -->
+    <div id="collapseContent" class="collapse-content show">
+      El contenido esta Colpasado
+    </div>
+  </div>
+</section>
+
 
 
 

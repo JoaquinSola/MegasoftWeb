@@ -71,11 +71,12 @@ function closeSidebar() {
   document.body.classList.remove('menu-open');
 }
 
-if (menuToggleBtn) {
+if (menuToggleBtn && !menuToggleBtn.hasAttribute('data-bs-toggle')) {
+  // only attach legacy toggle if the button is not configured to open a Bootstrap offcanvas
   menuToggleBtn.addEventListener('click', () => {
-    const opening = !sidebar.classList.contains('open');
-    sidebar.classList.toggle('open');
-    backdrop.classList.toggle('show', opening);
+    const opening = sidebar && !sidebar.classList.contains('open');
+    if(sidebar) sidebar.classList.toggle('open');
+    if(backdrop) backdrop.classList.toggle('show', opening);
     menuToggleBtn.setAttribute('aria-expanded', String(opening));
     document.body.classList.toggle('menu-open', opening);
   });
@@ -185,6 +186,18 @@ if (toggleArrows) {
     updateArrows(toggleArrows.checked);
   });
 }
+
+//Collapse
+const collapseBtn = document.getElementById('collapseBtn');
+const collapseContent = document.getElementById('collapseContent');
+
+collapseBtn.addEventListener('click', () => {
+  collapseContent.classList.toggle('show');
+
+  // Cambiar texto del botón
+  collapseBtn.textContent = collapseContent.classList.contains('show') ? 'Colapsar' : 'Expandir';
+});
+
 
 
 
