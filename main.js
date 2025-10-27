@@ -22,8 +22,62 @@ const sidebar = document.getElementById('sidebar');
 const backdrop = document.querySelector('.backdrop');
 
 // Cambiar color primario y secundario dinámicamente
-function applyPrimary(color){ root.style.setProperty("--primary-color", color); }
-function applySecondary(color){ root.style.setProperty("--secondary-color", color); }
+// Helper: convertir hex (#rrggbb or #rgb) a componentes H S L ("H S% L%")
+function hexToHslComponents(hex) {
+  if (!hex) return null;
+  // normalizar
+  hex = hex.replace('#','');
+  if (hex.length === 3) {
+    hex = hex.split('').map(c => c + c).join('');
+  }
+  const r = parseInt(hex.substring(0,2),16) / 255;
+  const g = parseInt(hex.substring(2,4),16) / 255;
+  const b = parseInt(hex.substring(4,6),16) / 255;
+
+  const max = Math.max(r,g,b), min = Math.min(r,g,b);
+  let h, s, l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch(max){
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h = h * 60;
+  }
+  h = Math.round(h || 0);
+  s = Math.round((s || 0) * 100);
+  l = Math.round(l * 100);
+  return `${h} ${s}% ${l}%`;
+}
+
+// Cambiar color primario y secundario dinámicamente
+function applyPrimary(color){
+  // si recibimos un hex, actualizamos la variable --h-primary para mantener la paleta HSL derivada
+  const hcomp = hexToHslComponents(color);
+  if (hcomp) {
+    // Set the HSL components only. Do NOT overwrite --primary-color so CSS that
+    // derives from --h-primary (via hsl(var(--h-primary))) keeps HSL semantics.
+    root.style.setProperty('--h-primary', hcomp);
+  } else {
+    // Fallback: if a non-hex value (like an hsl(...) string) is provided, set
+    // it to --h-primary when possible by extracting components would be ideal,
+    // but for now set the raw value to --primary-color so older rules still work.
+    root.style.setProperty("--primary-color", color);
+  }
+}
+function applySecondary(color){
+  const hcomp = hexToHslComponents(color);
+  if (hcomp) {
+    root.style.setProperty('--h-secondary', hcomp);
+  } else {
+    root.style.setProperty("--secondary-color", color);
+  }
+}
 
 // Guardar/Aplicar desde pickers y localStorage
 if(primaryPicker){
@@ -57,8 +111,8 @@ if(darkModeToggle){
     const p = localStorage.getItem('agendaPrimary') || localStorage.getItem('primaryColor');
     const s = localStorage.getItem('agendaSecondary') || localStorage.getItem('secondaryColor');
     const dark = (localStorage.getItem('agendaDark') === '1');
-    if(p){ applyPrimary(p); if(primaryPicker) primaryPicker.value = p; }
-    if(s){ applySecondary(s); if(secondaryPicker) secondaryPicker.value = s; }
+  if(p){ applyPrimary(p); if(primaryPicker && typeof p === 'string' && p.startsWith('#')) primaryPicker.value = p; }
+  if(s){ applySecondary(s); if(secondaryPicker && typeof s === 'string' && s.startsWith('#')) secondaryPicker.value = s; }
     if(darkModeToggle){ darkModeToggle.checked = dark; document.body.classList.toggle('dark', dark); }
   }catch(e){ console.warn('No se pudieron cargar colores compartidos', e); }
 })();
@@ -115,10 +169,21 @@ const tabContents = document.querySelectorAll(".tab-content");
 
 tabButtons.forEach(btn => {
   btn.addEventListener("click", () => {
-    tabButtons.forEach(b => b.classList.remove("active"));
-    tabContents.forEach(c => c.classList.remove("active"));
+    tabButtons.forEach(b => {
+      b.classList.remove("active");
+      b.setAttribute('aria-selected', 'false');
+    });
+    tabContents.forEach(c => {
+      c.classList.remove("active");
+      c.setAttribute('aria-hidden', 'true');
+    });
     btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
+    btn.setAttribute('aria-selected', 'true');
+    const panel = document.getElementById(btn.dataset.tab);
+    if (panel) {
+      panel.classList.add("active");
+      panel.setAttribute('aria-hidden', 'false');
+    }
   });
 });
 
@@ -197,6 +262,133 @@ collapseBtn.addEventListener('click', () => {
   // Cambiar texto del botón
   collapseBtn.textContent = collapseContent.classList.contains('show') ? 'Colapsar' : 'Expandir';
 });
+
+// ======= FUNCIONALIDAD DE FORMULARIOS =======
+
+// Toggle de contraseña
+const togglePasswordBtn = document.getElementById('togglePassword');
+const loginPasswordInput = document.getElementById('loginPassword');
+
+if (togglePasswordBtn && loginPasswordInput) {
+  togglePasswordBtn.addEventListener('click', () => {
+    const type = loginPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    loginPasswordInput.setAttribute('type', type);
+    
+    // Cambiar icono
+    const icon = togglePasswordBtn.querySelector('.material-icons');
+    icon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
+  });
+}
+
+// Validación de formularios en tiempo real
+const modernInputs = document.querySelectorAll('.modern-input, .modern-select, .modern-textarea');
+
+modernInputs.forEach(input => {
+  input.addEventListener('blur', () => {
+    validateField(input);
+  });
+  
+  input.addEventListener('input', () => {
+    // Remover clases de validación mientras el usuario escribe
+    input.classList.remove('is-valid', 'is-invalid');
+  });
+});
+
+function validateField(field) {
+  const value = field.value.trim();
+  const isRequired = field.hasAttribute('required');
+  const type = field.type;
+  
+  // Limpiar clases anteriores
+  field.classList.remove('is-valid', 'is-invalid');
+  
+  if (isRequired && !value) {
+    field.classList.add('is-invalid');
+    return false;
+  }
+  
+  if (value) {
+    // Validaciones específicas por tipo
+    if (type === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(value)) {
+        field.classList.add('is-valid');
+        return true;
+      } else {
+        field.classList.add('is-invalid');
+        return false;
+      }
+    } else if (type === 'tel') {
+      const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+      if (phoneRegex.test(value)) {
+        field.classList.add('is-valid');
+        return true;
+      } else {
+        field.classList.add('is-invalid');
+        return false;
+      }
+    } else {
+      field.classList.add('is-valid');
+      return true;
+    }
+  }
+  
+  return true;
+}
+
+// Manejo de envío de formularios
+const modernForms = document.querySelectorAll('.modern-form');
+
+modernForms.forEach(form => {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const inputs = form.querySelectorAll('.modern-input, .modern-select, .modern-textarea');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+      if (!validateField(input)) {
+        isValid = false;
+      }
+    });
+    
+    if (isValid) {
+      // Simular envío exitoso
+      showNotification('Formulario enviado correctamente', 'success');
+      form.reset();
+      
+      // Limpiar clases de validación
+      inputs.forEach(input => {
+        input.classList.remove('is-valid', 'is-invalid');
+      });
+    } else {
+      showNotification('Por favor, corrige los errores en el formulario', 'error');
+    }
+  });
+});
+
+// Función para mostrar notificaciones
+function showNotification(message, type = 'info') {
+  // Crear elemento de notificación
+  const notification = document.createElement('div');
+  notification.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+  notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+  
+  notification.innerHTML = `
+    <span class="material-icons me-2">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</span>
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Auto-remover después de 5 segundos
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.remove();
+    }
+  }, 5000);
+}
 
 
 

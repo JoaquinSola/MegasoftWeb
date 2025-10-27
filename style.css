@@ -6,20 +6,20 @@
   box-shadow: 0 6px 24px 0 rgba(23,195,178,0.18);
   margin-top: 0.5rem;
   min-width: 180px;
-  background: #fff;
-  color: #222;
+  background: var(--card-bg);
+  color: var(--text-color);
   border: none;
   overflow: visible;
 }
 .modern-navbar .dropdown-menu .dropdown-item {
-  color: #0078b7;
+  color: var(--primary-color);
   font-weight: 500;
   border-radius: 6px;
   transition: background 0.2s, color 0.2s;
 }
 .modern-navbar .dropdown-menu .dropdown-item:hover {
   background: var(--secondary-color);
-  color: #fff;
+  color: var(--white-color);
 }
 /* Modern vibrant navbar styles */
 .modern-navbar {
@@ -32,11 +32,11 @@
 
 }
 .modern-navbar .navbar-brand {
-  color: #fff !important;
+  color: var(--white-color) !important;
   letter-spacing: 1px;
 }
 .modern-navbar .material-icons {
-  color: #fff;
+  color: var(--white-color);
 }
 .modern-navbar .navbar-toggler {
   background: rgba(255,255,255,0.1);
@@ -47,7 +47,7 @@
   background: rgba(255,255,255,0.2);
 }
 .modern-navbar .navbar-nav .nav-link {
-  color: #fff;
+  color: var(--white-color);
   font-weight: 500;
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -56,12 +56,12 @@
 .modern-navbar .navbar-nav .nav-link.active,
 .modern-navbar .navbar-nav .nav-link:hover {
   background: rgba(255,255,255,0.18);
-  color: #ffe066 !important;
+  color: var(--accent-color) !important;
 }
 .modern-navbar .btn-gradient {
   /* usar variables para mantener consistencia con la paleta global */
   background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  color: #222;
+  color: var(--text-color);
   border: none;
   font-weight: 600;
   border-radius: 8px;
@@ -75,7 +75,7 @@
 .modern-navbar .glassy-input {
   background: rgba(255,255,255,0.25);
   border: none;
-  color: #222;
+  color: var(--text-color);
   border-radius: 8px;
   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
   transition: background 0.2s;
@@ -84,23 +84,7 @@
   background: rgba(255,255,255,0.4);
   outline: none;
 }
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #17c3b2;
 
-  --text-color: #222;
-  --bg-color: #f7f9fb;
-  --card-bg: #fff;
-  --border-color: #e1e5ea;
-
-  --dark-bg-color: #1e1e1e;
-  --dark-card-bg: #2c2c2c;
-  --dark-text-color: #f0f0f0;
-  --dark-border-color: #444;
-
-  --border-radius: 8px;
-  --transition-speed: 0.3s;
-}
 
 /* ======= RESET ======= */
 * { box-sizing: border-box; margin:0; padding:0; }
@@ -118,10 +102,74 @@ body {
 body.menu-open { overflow: hidden; }
 
 /* ======= DARK MODE ======= */
+/* ======= DARK MODE ======= */
 body.dark {
-  background-color: var(--dark-bg-color);
-  color: var(--dark-text-color);
+  /* Redefinir la paleta clave en HSL cuando esté en modo oscuro.
+     Usamos variables HSL para un control más preciso de tono/saturación/luminosidad
+     y mantenemos las variables --dark-* por compatibilidad con reglas existentes. */
+  
+  /* Colores base invertidos usando HSL */
+  --primary-color: hsl(208, 100%, 70%);      /* azul más claro para contraste */
+  --secondary-color: hsl(174, 63%, 60%);     /* aqua/teal más claro */
+  --text-color: hsl(0, 0%, 96%);             /* casi blanco */
+  --bg-color: hsl(210, 12%, 8%);             /* fondo principal oscuro */
+  --card-bg: hsl(210, 10%, 14%);             /* fondo de tarjetas */
+  --border-color: hsl(0, 0%, 26%);           /* bordes en oscuro */
+  --success-color: hsl(134, 61%, 55%);       /* verde éxito más claro */
+  --danger-color: hsl(1, 70%, 65%);          /* rojo peligro más claro */
+
+  /* Colores invertidos para botones usando cálculos HSL - Mejor contraste */
+  /* Derivar fondos de botones en modo oscuro desde las variables HSL
+    principales para que sean dinámicos cuando JS actualiza --h-primary, etc. */
+  --btn-primary-bg: color-mix(in srgb, hsl(var(--h-primary)) 60%, black 20%);
+  --btn-primary-hover: color-mix(in srgb, hsl(var(--h-primary)) 50%, black 10%);
+  --btn-secondary-bg: color-mix(in srgb, hsl(var(--h-secondary)) 60%, black 20%);
+  --btn-secondary-hover: color-mix(in srgb, hsl(var(--h-secondary)) 50%, black 10%);
+  --btn-success-bg: color-mix(in srgb, hsl(var(--h-success)) 60%, black 20%);
+  --btn-success-hover: color-mix(in srgb, hsl(var(--h-success)) 50%, black 10%);
+  --btn-warning-bg: color-mix(in srgb, hsl(var(--h-accent)) 60%, black 20%);
+  --btn-warning-hover: color-mix(in srgb, hsl(var(--h-accent)) 50%, black 10%);
+  --btn-danger-bg: color-mix(in srgb, hsl(var(--h-danger)) 60%, black 20%);
+  --btn-danger-hover: color-mix(in srgb, hsl(var(--h-danger)) 50%, black 10%);
+
+  /* Mantener las variables dark-* existentes para compatibilidad */
+  --dark-bg-color: var(--bg-color);
+  --dark-card-bg: var(--card-bg);
+  --dark-text-color: var(--text-color);
+  --dark-border-color: var(--border-color);
+
+  /* Aplicar los colores basados en las variables HSL */
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
+
+/* Ensure some components invert correctly in dark mode */
+/* Collapse content: use dark card background, dark text and borders */
+body.dark .collapse-content,
+body.dark .collapse-content.show {
+  background-color: var(--dark-card-bg);
+  color: var(--dark-text-color);
+  border: 1px solid var(--dark-border-color);
+}
+
+/* Tab panels: match dark card background and borders when active */
+body.dark .tab-content,
+body.dark .tab-content.active {
+  background: var(--dark-card-bg) !important;
+  color: var(--dark-text-color) !important;
+  border-color: var(--dark-border-color) !important;
+}
+
+/* Buttons that are 'light' with primary text+border should invert on dark
+   so they remain visible: dark background, light text and dark border */
+body.dark .btn.btn-light.text-primary.border-primary,
+body.dark .btn.btn-light.text-primary.border-primary:focus,
+body.dark .btn.btn-light.text-primary.border-primary:hover {
+  background-color: var(--dark-card-bg) !important;
+  color: var(--white-color) !important;
+  border-color: var(--dark-border-color) !important;
+}
+
 
 /* ======= SIDEBAR ======= */
 .sidebar {
@@ -161,13 +209,13 @@ body.dark .sidebar a {
 
 .sidebar a:hover {
   background: var(--primary-color);
-  color: white;
+  color: var(--white-color);
 }
 
 /* ======= HEADER ======= */
 header {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--white-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -223,24 +271,9 @@ body.dark main { color: var(--dark-text-color); }
 
 /* ======= SECTION ======= */
 section {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-  transition: background 0.3s, border-color 0.3s, color 0.3s;
-  overflow: visible !important;
-}
-
-body.dark section {
-  background: var(--dark-card-bg);
-  border-color: var(--dark-border-color);
-}
-
-section#navbar {
-  position: relative;
-
+  /* Use canonical palette from :root. Section no longer defines its own
+     --h-* variables so runtime updates to --h-primary / --h-secondary
+     (from JS) affect all sections consistently. */
   overflow: visible !important;
 }
 
@@ -258,15 +291,130 @@ body.dark section h2 { color: var(--primary-color); }
 
 /* ======= BUTTONS ======= */
 .btn {
-  padding: 0.6rem 1.2rem; border:none; border-radius: var(--border-radius);
-  cursor: pointer; font-size: 0.95rem; transition: all 0.2s; margin:0.3rem;
+  border: none; 
+  color: var(--white-color); 
+  padding: 14px 28px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+  transition: background-color 0.3s ease;
 }
 
-.btn:active { transform: scale(0.97); }
+.primary {background-color: var(--primary-color);} 
+.primary:hover {background: color-mix(in srgb, var(--primary-color) 85%, black 10%);} 
 
-.btn-primary { background: var(--primary-color); color: white; }
-.btn-secondary { background: var(--secondary-color); color: white; }
-.btn-outline { background: transparent; color: var(--primary-color); border:2px solid var(--primary-color); }
+.secondary {background-color: var(--secondary-color); color: var(--white-color);} 
+.secondary:hover {background: var(--light-gray);} 
+
+.success {background-color: var(--success-color);} 
+.success:hover {background: color-mix(in srgb, var(--success-color) 85%, black 10%);} 
+
+.warning {background-color: hsl(33 100% 50%);} 
+.warning:hover {background: hsl(34 100% 44%);} 
+
+.danger {background-color: var(--danger-color);} 
+.danger:hover {background: color-mix(in srgb, var(--danger-color) 80%, black 12%);}
+
+/* ======= DARK MODE BUTTONS ======= */
+body.dark .primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--white-color);
+}
+body.dark .primary:hover {
+  background-color: var(--btn-primary-hover);
+}
+
+body.dark .secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--white-color);
+}
+body.dark .secondary:hover {
+  background-color: var(--btn-secondary-hover);
+}
+
+body.dark .success {
+  background-color: var(--btn-success-bg);
+  color: var(--white-color);
+}
+body.dark .success:hover {
+  background-color: var(--btn-success-hover);
+}
+
+body.dark .warning {
+  background-color: var(--btn-warning-bg);
+  color: var(--white-color);
+}
+body.dark .warning:hover {
+  background-color: var(--btn-warning-hover);
+}
+
+body.dark .danger {
+  background-color: var(--btn-danger-bg);
+  color: var(--white-color);
+}
+body.dark .danger:hover {
+  background-color: var(--btn-danger-hover);
+} 
+
+/* ======= CRUD TOOLBAR ======= */
+.crud-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.crud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  color: var(--white-color);
+  border: 1px solid transparent;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.crud-btn .material-icons { font-size: 1.05rem; }
+
+.crud-btn.create { background: var(--primary-color); border-color: color-mix(in srgb, var(--primary-color) 60%, black 10%); }
+.crud-btn.read { background: hsl(210 8% 45%); border-color: color-mix(in srgb, hsl(210 8% 45%) 60%, black 10%); }
+.crud-btn.update { background: var(--secondary-color); border-color: color-mix(in srgb, var(--secondary-color) 60%, black 10%); }
+.crud-btn.delete { background: var(--danger-color, hsl(1 70% 52%)); border-color: color-mix(in srgb, var(--danger-color, hsl(1 70% 52%)) 60%, black 10%); }
+
+/* Dark mode CRUD buttons */
+body.dark .crud-btn.create { 
+  background: var(--btn-primary-bg); 
+  border-color: var(--btn-primary-bg);
+  color: var(--white-color);
+}
+body.dark .crud-btn.read { 
+  background: hsl(0, 0%, 35%); 
+  border-color: hsl(0, 0%, 35%);
+  color: var(--white-color);
+}
+body.dark .crud-btn.update { 
+  background: var(--btn-secondary-bg); 
+  border-color: var(--btn-secondary-bg);
+  color: var(--white-color);
+}
+body.dark .crud-btn.delete { 
+  background: var(--btn-danger-bg); 
+  border-color: var(--btn-danger-bg);
+  color: var(--white-color);
+}
+
+.crud-btn:hover { transform: translateY(-2px); }
+.crud-btn:active { transform: translateY(0); }
+.crud-btn:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-color) 12%, transparent); }
+
+/* Small/compact variant */
+.crud-toolbar .crud-btn.small { padding: 0.35rem 0.6rem; font-size: 0.9rem; }
+
+@media (max-width: 600px) {
+  .crud-toolbar { gap: 0.4rem; }
+  .crud-btn .label { display:none; } /* keep icons only on very small screens */
+}
 
 /* ======= FORMULARIOS ======= */
 .form-group { margin: 0.8rem 0; }
@@ -276,11 +424,185 @@ input[type="text"], select { padding:0.6rem; border-radius:var(--border-radius);
 
 input[type="text"]:focus, select:focus { outline:none; border-color: var(--primary-color); }
 
+/* ======= FORMULARIOS MODERNOS ======= */
+.modern-form {
+  max-width: 100%;
+}
+
+.modern-form .form-label {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modern-form .form-label .material-icons {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.modern-input,
+.modern-select,
+.modern-textarea {
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.modern-input:focus,
+.modern-select:focus,
+.modern-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 20%, transparent);
+  background-color: var(--card-bg);
+}
+
+.modern-input::placeholder,
+.modern-textarea::placeholder {
+  color: color-mix(in srgb, var(--text-color) 60%, transparent);
+}
+
+.modern-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Estados de validación */
+.modern-input.is-valid,
+.modern-select.is-valid,
+.modern-textarea.is-valid {
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--success-color) 20%, transparent);
+}
+
+.modern-input.is-invalid,
+.modern-select.is-invalid,
+.modern-textarea.is-invalid {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-color) 20%, transparent);
+}
+
+/* Checkboxes y radios modernos */
+.modern-form .form-check-input {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: 0.1rem;
+  accent-color: var(--primary-color);
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.modern-form .form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.modern-form .form-check-input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 20%, transparent);
+}
+
+.modern-form .form-check-label {
+  font-weight: 500;
+  color: var(--text-color);
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+/* Input groups */
+.modern-form .input-group .btn {
+  border: 2px solid var(--border-color);
+  border-left: none;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.modern-form .input-group .btn:hover {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border-color: var(--primary-color);
+}
+
+.modern-form .input-group .modern-input {
+  border-right: none;
+}
+
+.modern-form .input-group .modern-input:focus {
+  border-right: none;
+}
+
+/* Form text */
+.modern-form .form-text {
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--text-color) 70%, transparent);
+  margin-top: 0.25rem;
+}
+
+/* Card headers para formularios */
+.modern-form .card-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--white-color);
+  border: none;
+  border-radius: 8px 8px 0 0;
+}
+
+.modern-form .card-header h3 {
+  color: var(--white-color);
+  font-weight: 600;
+}
+
+.modern-form .card-header .material-icons {
+  color: var(--white-color);
+}
+
+/* Dark mode específico para formularios */
+body.dark .modern-input,
+body.dark .modern-select,
+body.dark .modern-textarea {
+  background-color: var(--dark-card-bg);
+  color: var(--dark-text-color);
+  border-color: var(--dark-border-color);
+}
+
+body.dark .modern-input:focus,
+body.dark .modern-select:focus,
+body.dark .modern-textarea:focus {
+  background-color: var(--dark-card-bg);
+  border-color: var(--primary-color);
+}
+
+body.dark .modern-form .form-label {
+  color: var(--dark-text-color);
+}
+
+body.dark .modern-form .form-check-label {
+  color: var(--dark-text-color);
+}
+
+body.dark .modern-form .form-text {
+  color: color-mix(in srgb, var(--dark-text-color) 70%, transparent);
+}
+
+body.dark .modern-form .input-group .btn {
+  background-color: var(--dark-card-bg);
+  color: var(--dark-text-color);
+  border-color: var(--dark-border-color);
+}
+
 /* ======= ALERTS ======= */
 .alert { padding:0.8rem 1rem; border-radius:var(--border-radius); margin:0.5rem 0; font-size:0.95rem; }
-.alert-info { background:#e8f4fd; color:#054a73; border-left:4px solid var(--primary-color); }
-.alert-success { background:#e6f8f5; color:#0b5f53; border-left:4px solid var(--secondary-color); }
-.alert-warning { background:#fff8e6; color:#664d03; border-left:4px solid #ffc107; }
+.alert-info { background: hsl(203 90% 94%); color: hsl(200 92% 20%); border-left:4px solid var(--primary-color); }
+.alert-success { background: hsl(166 57% 94%); color: hsl(163 85% 21%); border-left:4px solid var(--secondary-color); }
+.alert-warning { background: hsl(39 100% 95%); color: hsl(42 95% 20%); border-left:4px solid hsl(45 100% 50%); }
 
 /* ======= CARDS ======= */
 .card {
@@ -318,45 +640,335 @@ body.dark .card h3 {
 
 /* ======= NAVBAR ======= */
 .navbar { display:flex; background:var(--primary-color); border-radius:var(--border-radius); }
-.navbar a { color:white; padding:0.8rem 1.2rem; text-decoration:none; font-weight:500; transition: background 0.3s; }
+.navbar a { color:var(--white-color); padding:0.8rem 1.2rem; text-decoration:none; font-weight:500; transition: background 0.3s; }
 /*.navbar a:hover { background: var(--secondary-color); }*/
 
 /* ======= SWITCH ======= */
 .switch { position:relative; display:inline-block; width:50px; height:26px; }
 .switch input { opacity:0; width:0; height:0; }
-.slider { position:absolute; cursor:pointer; background-color:#ccc; border-radius:26px; top:0; left:0; right:0; bottom:0; transition:0.3s; }
-.slider:before { position:absolute; content:""; height:20px; width:20px; left:3px; bottom:3px; background:white; border-radius:50%; transition:0.3s; }
+.slider { position:absolute; cursor:pointer; background-color: var(--muted-color); border-radius:26px; top:0; left:0; right:0; bottom:0; transition:0.3s; }
+.slider:before { position:absolute; content:""; height:20px; width:20px; left:3px; bottom:3px; background:var(--white-color); border-radius:50%; transition:0.3s; }
 input:checked + .slider { background-color: var(--primary-color); }
 input:checked + .slider:before { transform: translateX(24px); }
 
-/* ======= TABS ======= */
-.tabs { display:flex; gap:0.5rem; margin-bottom:1rem; }
-.tab-btn { background:var(--card-bg); border:1px solid var(--border-color); padding:0.6rem 1rem; border-radius:var(--border-radius); cursor:pointer; transition: background 0.3s, border-color 0.3s; }
-.tab-btn.active { background:var(--primary-color); color:white; border-color:var(--primary-color); }
-.tab-content { display:none; border-top:1px solid var(--border-color); padding-top:1rem; }
-.tab-content.active { display:block; }
+/* ======= PESTAÑAS (estilo tipo pestaña de navegador) ======= */
+.tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0; /* los contenidos contendrán el borde */
+  align-items: flex-end; /* alinear las pestañas con la parte superior del contenido */
+}
+
+/* Usar el color primario para las líneas/bordes de las pestañas */
+.tab-btn {
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  border-bottom: 1px solid transparent; /* para que la pestaña se fusione con el contenido cuando está activa */
+  padding: 0.6rem 1rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.08s;
+  color: var(--primary-color);
+  position: relative;
+  top: 1px; /* eleva ligeramente para simular pestaña */
+}
+
+.tab-btn:not(.active):hover {
+  background: color-mix(in srgb, var(--card-bg) 85%, var(--primary-color) 5%);
+}
+
+.tab-btn.active {
+  background: var(--card-bg);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  border-bottom: 1px solid var(--card-bg); /* oculta la separación con el contenido */
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+  z-index: 5;
+}
+
+/* Hover / focus / indicador para la pestaña en la que está el cursor (o la activa) */
+.tab-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.tab-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-color) 12%, transparent);
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px; /* justo sobre el panel */
+  width: 44px;
+  height: 6px;
+  background: var(--primary-color);
+  border-radius: 6px;
+  opacity: 0.12;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+}
+
+.tab-btn.active:hover::after {
+  opacity: 0.2;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.tab-content {
+  display: none;
+  border: 1px solid var(--primary-color);
+  border-top: none; /* el borde superior lo forman las pestañas */
+  padding: 1rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background: var(--card-bg);
+}
+
+.tab-content.active { display: block; }
 
 /* ======= PROGRESS ======= */
-.progress { width:100%; background:#e0e6eb; border-radius:10px; overflow:hidden; }
-.progress-bar { background:var(--primary-color); color:white; padding:0.3rem; text-align:center; transition: width 0.3s ease; }
+.progress { width:100%; background:var(--muted-color); border-radius:10px; overflow:hidden; }
+.progress-bar { background:var(--primary-color); color:var(--white-color); padding:0.3rem; text-align:center; transition: width 0.3s ease; }
+
+/* ======= BOTÓN DE PROGRESO (solo HTML + CSS) ======= */
+
+.progress-toggle-input { display: none; }
+
+/* Ensure the completed label is hidden by default so 'Completado' doesn't appear
+  together with the idle label on wider screens. We control visibility with
+  opacity so the element stays in the flow for absolute centering. */
+.label-complete { opacity: 0; }
+
+.progress-toggle {
+  display: inline-flex; /* align content vertically and keep predictable height */
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  min-height: 40px; /* ensure button is visible and not too thin */
+  background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 12%, var(--white-color) 88%), var(--primary-color));
+  color: var(--white-color);
+  font-weight: 600;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 60%, black 10%);
+  width:500px
+}
+
+.progress-toggle .progress-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0%;
+  height: 100%; /* ensure the fill covers the full button height */
+  background: linear-gradient(90deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 70%, black 30%));
+  z-index: 1;
+  transition: width var(--progress-duration) linear;
+}
+
+.progress-toggle .label-content {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  min-height: 1.2em; /* reserve vertical space */
+}
+
+/* Stack the three label states on top of each other and center text both
+   horizontally and vertically so 'Completado' always appears centered. */
+.progress-toggle .label-content > span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Texto: inactivo / cargando / completado (desktop) - use opacity to show/hide */
+.label-idle { opacity: 1; }
+.label-loading { opacity: 0; }
+.label-complete { opacity: 0; }
+
+/* When checked: hide idle, show loading (then animations handle transitions to complete) */
+.progress-toggle-input:checked + .progress-toggle .label-idle { opacity: 0; }
+.progress-toggle-input:checked + .progress-toggle .label-loading { opacity: 1; }
+
+/* Use keyframe animations (defined below) to keep the desktop behaviour in sync
+   with the mobile animations. The .progress-fill uses animation so it stays at
+   100% after finishing. */
+.progress-toggle .progress-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 70%, black 30%));
+  z-index: 1;
+}
+
+.progress-toggle-input:checked + .progress-toggle .progress-fill {
+  animation: fillBar var(--progress-duration) linear forwards;
+}
+
+.progress-toggle-input:checked + .progress-toggle .label-loading {
+  animation: hideLoading var(--progress-duration) forwards;
+}
+
+.progress-toggle-input:checked + .progress-toggle .label-complete {
+  /* don't change display; we manage visibility with opacity/animation */
+  animation: showComplete var(--progress-duration) forwards;
+}
+
+.progress-toggle-input:checked + .progress-toggle {
+  animation: markBgComplete var(--progress-duration) forwards;
+}
+
+/* Keyframes para sincronizar la animación del botón en pantallas grandes */
+@keyframes fillBar { from { width: 0%; } to { width: 100%; } }
+@keyframes hideLoading { 0% { opacity: 1; } 99% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes showComplete { 0% { opacity: 0; } 99% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes markBgComplete { 0% { background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 12%, white 88%), var(--primary-color)); border-color: color-mix(in srgb, var(--primary-color) 60%, black 10%); } 99% { background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 12%, white 88%), var(--primary-color)); border-color: color-mix(in srgb, var(--primary-color) 60%, black 10%); } 100% { background: var(--success-color); border-color: var(--success-color); } }
+
+/* Pequeños ajustes responsivos */
+  @media (max-width: 600px) {
+  .progress-toggle { padding: 0.45rem 0.8rem; font-size: 0.95rem; }
+
+  .progress-toggle-input { display: none; }
+
+  .progress-toggle {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 12%, var(--white-color) 88%), var(--primary-color));
+  color: var(--white-color);
+    font-weight: 600;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 60%, black 10%);
+  }
+
+  .progress-toggle .progress-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 70%, black 30%));
+    z-index: 1;
+  }
+
+  .progress-toggle .label-content { position: relative; z-index: 2; display:block; width:100%; min-height:1.2em; }
+
+  .progress-toggle .label-content > span { position:absolute; left:0; right:0; display:block; width:100%; text-align:center; top:50%; transform:translateY(-50%); pointer-events:none; }
+
+  .label-idle { opacity: 1; }
+  .label-loading { opacity: 0; }
+  .label-complete { opacity: 0; }
+  .progress-toggle-input:checked + .progress-toggle .label-idle { opacity: 0; }
+  .progress-toggle-input:checked + .progress-toggle .label-loading { opacity: 1; }
+
+  /* Animaciones sincronizadas cuando está checked */
+  @keyframes fillBar { from { width: 0%; } to { width: 100%; } }
+  @keyframes hideLoading { 0% { opacity: 1; } 99% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes showComplete { 0% { opacity: 0; } 99% { opacity: 0; } 100% { opacity: 1; } }
+  @keyframes markBgComplete { 0% { background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 12%, white 88%), var(--primary-color)); border-color: color-mix(in srgb, var(--primary-color) 60%, black 10%); } 99% { background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 12%, white 88%), var(--primary-color)); border-color: color-mix(in srgb, var(--primary-color) 60%, black 10%); } 100% { background: var(--success-color); border-color: var(--success-color); } }
+
+  .progress-toggle-input:checked + .progress-toggle .progress-fill {
+    animation: fillBar var(--progress-duration) linear forwards;
+  }
+
+  .progress-toggle-input:checked + .progress-toggle .label-loading {
+    animation: hideLoading var(--progress-duration) forwards;
+  }
+
+  .progress-toggle-input:checked + .progress-toggle .label-complete {
+    /* visibility handled via opacity + animation */
+    animation: showComplete var(--progress-duration) forwards;
+  }
+
+  /* Cambiar el fondo del botón al finalizar (efecto instantáneo al 100% via animation) */
+  .progress-toggle-input:checked + .progress-toggle {
+    animation: markBgComplete var(--progress-duration) forwards;
+  }
+
+  /* Pequeños ajustes responsivos */
+  @media (max-width: 600px) {
+    .progress-toggle { padding: 0.45rem 0.8rem; font-size: 0.95rem; }
+  }
+}
 
 /* ======= MODAL ======= */
 .modal { display:none; position:fixed; z-index:100; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.4); }
 .modal.show { display:block; }
 .modal-content { background: var(--card-bg); margin:10% auto; padding:1.5rem; border-radius:10px; width:90%; max-width:400px; position:relative; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition: background 0.3s, color 0.3s; }
-.close { position:absolute; top:8px; right:12px; font-size:1.3rem; cursor:pointer; color:#999; transition:color 0.2s; }
+.close { position:absolute; top:8px; right:12px; font-size:1.3rem; cursor:pointer; color: hsl(0 0% 60%); transition:color 0.2s; }
 .close:hover { color: var(--primary-color); }
 
 /* ======= TOOLTIP ======= */
 .tooltip { position:relative; }
-.tooltip::after { content: attr(data-tooltip); position:absolute; bottom:130%; left:50%; transform:translateX(-50%); background: var(--text-color); color:white; padding:4px 8px; border-radius:4px; font-size:0.8rem; opacity:0; pointer-events:none; transition: opacity 0.2s; white-space:nowrap; }
+.tooltip::after { content: attr(data-tooltip); position:absolute; bottom:130%; left:50%; transform:translateX(-50%); background: var(--text-color); color: var(--white-color); padding:4px 8px; border-radius:4px; font-size:0.8rem; opacity:0; pointer-events:none; transition: opacity 0.2s; white-space:nowrap; }
 .tooltip:hover::after { opacity:1; }
 
 /* ======= BADGES ======= */
 .badge { display:inline-block; padding:0.3rem 0.8rem; border-radius:999px; font-size:0.85rem; font-weight:500; margin:0.3rem; }
-.badge.primary { background: var(--primary-color); color:white; }
-.badge.secondary { background: var(--secondary-color); color:white; }
+.badge.primary { background: var(--primary-color); color: var(--white-color); }
+.badge.secondary { background: var(--secondary-color); color: var(--white-color); }
 .badge.outline { border:1px solid var(--primary-color); color: var(--primary-color); background:transparent; }
+
+/* ======= NOTIFICATION BADGES PARA BOTONES ======= */
+/* La clase .notification-btn convierte un botón en contenedor relativo
+   y .notif-badge posiciona la insignia en la esquina superior izquierda */
+.notification-btn { position: relative; overflow: visible; }
+
+.notif-badge {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--white-color);
+  background: var(--primary-color);
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  line-height: 1;
+  border: 2px solid var(--card-bg); /* separa la badge del botón */
+}
+
+/* Variante para dot pequeño (sin número) */
+.notif-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  min-width: 0;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  border: 2px solid var(--card-bg);
+}
+
+/* Si quieres badges en la esquina superior derecha, usar .notif-badge--tr */
+.notif-badge--tr { left: auto; right: -8px; top: -8px; }
+
+/* Ajustes responsivos: reducir tamaño en pantallas pequeñas */
+@media (max-width: 600px) {
+  .notif-badge { top: -6px; left: -6px; min-width:16px; height:16px; font-size:0.66rem; padding:0 5px; }
+  .notif-dot { width:8px; height:8px; }
+}
 
 /* ======= BOTONES ======= */
 section#buttons {
@@ -404,7 +1016,7 @@ section#buttons h2 {
 /* Variantes */
 .mud-button.filled {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--white-color);
   box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 .mud-button.filled.secondary {
@@ -427,7 +1039,7 @@ section#buttons h2 {
 }
 .mud-button.outlined:hover:not(:disabled) {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--white-color);
 }
 
 /* Text */
@@ -465,10 +1077,124 @@ section#buttons h2 {
   font-size: 1.05rem;
 }
 
-:root {
-  --primary-color: #1e88e5;
-  --secondary-color: #26c6da;
+/* Dark mode MudBlazor buttons */
+body.dark .mud-button.filled {
+  background-color: var(--btn-primary-bg);
+  color: var(--white-color);
 }
+body.dark .mud-button.filled.secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--white-color);
+}
+body.dark .mud-button.filled:hover:not(:disabled) {
+  background-color: var(--btn-primary-hover);
+}
+
+body.dark .mud-button.outlined {
+  border-color: var(--btn-primary-bg);
+  color: var(--btn-primary-bg);
+}
+body.dark .mud-button.outlined.secondary {
+  border-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-bg);
+}
+body.dark .mud-button.outlined:hover:not(:disabled) {
+  background-color: var(--btn-primary-bg);
+  color: var(--white-color);
+}
+
+body.dark .mud-button.text {
+  color: var(--btn-primary-bg);
+}
+body.dark .mud-button.text.secondary {
+  color: var(--btn-secondary-bg);
+}
+body.dark .mud-button.text:hover:not(:disabled) {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* ======= ASEGURAR CONTRASTE EN MODO OSCURO ======= */
+/* Forzar color de texto blanco en todos los botones de modo oscuro */
+body.dark .btn,
+body.dark .crud-btn,
+body.dark .mud-button {
+  color: var(--white-color) !important;
+}
+
+/* Excepción para botones outline que deben mantener el color del borde */
+body.dark .btn-outline-primary,
+body.dark .btn-outline-secondary,
+body.dark .mud-button.outlined,
+body.dark .mud-button.text {
+  color: inherit !important;
+}
+
+/* Asegurar que los botones outline tengan contraste cuando están hover */
+body.dark .btn-outline-primary:hover,
+body.dark .btn-outline-secondary:hover,
+body.dark .mud-button.outlined:hover:not(:disabled) {
+  color: var(--white-color) !important;
+}
+
+/* Asegurar contraste en botones con gradientes y efectos especiales */
+body.dark .btn-gradient,
+body.dark .progress-toggle,
+body.dark .modern-navbar .btn-gradient {
+  color: var(--white-color) !important;
+}
+
+/* Asegurar contraste en botones de la navbar */
+body.dark .modern-navbar .btn-gradient:hover {
+  color: var(--white-color) !important;
+}
+
+/* ======= DEMOSTRACIÓN DE INVERSIÓN HSL ======= */
+/* Botones de demostración que muestran la inversión de colores */
+.demo-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 8px;
+  display: inline-block;
+}
+
+.demo-button.original {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--white-color);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.demo-button.inverted {
+  background: linear-gradient(135deg, var(--btn-primary-bg), var(--btn-secondary-bg));
+  color: var(--white-color);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* En modo claro, mostrar el botón original */
+body:not(.dark) .demo-button.inverted {
+  display: none;
+}
+
+/* En modo oscuro, mostrar el botón invertido */
+body.dark .demo-button.original {
+  display: none;
+}
+
+/* Efectos hover para ambos */
+.demo-button.original:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.demo-button.inverted:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+/* Small palette notes removed here; consolidated at end of file */
 
 /* Bootstrap button overrides con colores dinámicos */
 .btn-primary {
@@ -476,18 +1202,18 @@ section#buttons h2 {
   border-color: var(--primary-color);
 }
 .btn-primary:hover {
-  background-color: #1669bb;
-  border-color: #1669bb;
+  background-color: hsl(211 68% 43%);
+  border-color: hsl(211 68% 43%);
 }
 
 .btn-secondary {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
-  color: #fff;
+  color: var(--white-color);
 }
 .btn-secondary:hover {
-  background-color: #20a8b7;
-  border-color: #20a8b7;
+  background-color: hsl(186 72% 43%);
+  border-color: hsl(186 72% 43%);
 }
 
 .btn-outline-primary {
@@ -496,7 +1222,7 @@ section#buttons h2 {
 }
 .btn-outline-primary:hover {
   background-color: var(--primary-color);
-  color: #fff;
+  color: var(--white-color);
 }
 
 .btn-outline-secondary {
@@ -505,7 +1231,46 @@ section#buttons h2 {
 }
 .btn-outline-secondary:hover {
   background-color: var(--secondary-color);
-  color: #fff;
+  color: var(--white-color);
+}
+
+/* Dark mode Bootstrap buttons */
+body.dark .btn-primary {
+  background-color: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+  color: var(--white-color);
+}
+body.dark .btn-primary:hover {
+  background-color: var(--btn-primary-hover);
+  border-color: var(--btn-primary-hover);
+}
+
+body.dark .btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  border-color: var(--btn-secondary-bg);
+  color: var(--white-color);
+}
+body.dark .btn-secondary:hover {
+  background-color: var(--btn-secondary-hover);
+  border-color: var(--btn-secondary-hover);
+}
+
+body.dark .btn-outline-primary {
+  color: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+}
+body.dark .btn-outline-primary:hover {
+  background-color: var(--btn-primary-bg);
+  color: var(--white-color);
+}
+
+body.dark .btn-outline-secondary {
+  color: var(--btn-secondary-bg);
+  border-color: var(--btn-secondary-bg);
+}
+body.dark .btn-outline-secondary:hover {
+  background-color: var(--btn-secondary-bg);
+  color: var(--white-color);
 }
 
 /* Transición suave */
@@ -514,10 +1279,7 @@ section#buttons h2 {
 }
 
 
-:root {
-  --primary-color: #1e88e5;
-  --secondary-color: #26c6da;
-}
+/* Duplicate :root removed; consolidated at end of file */
 
 /* Botones dinámicos */
 .btn-primary {
@@ -525,18 +1287,18 @@ section#buttons h2 {
   border-color: var(--primary-color);
 }
 .btn-primary:hover {
-  background-color: #1669bb;
-  border-color: #1669bb;
+  background-color: hsl(211 68% 43%);
+  border-color: hsl(211 68% 43%);
 }
 
 .btn-secondary {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
-  color: #fff;
+  color: var(--white-color);
 }
 .btn-secondary:hover {
-  background-color: #20a8b7;
-  border-color: #20a8b7;
+  background-color: hsl(186 72% 43%);
+  border-color: hsl(186 72% 43%);
 }
 
 /* Outline */
@@ -546,7 +1308,7 @@ section#buttons h2 {
 }
 .btn-outline-primary:hover {
   background-color: var(--primary-color);
-  color: #fff;
+  color: var(--white-color);
 }
 
 /* Dropdown custom */
@@ -557,14 +1319,10 @@ section#buttons h2 {
 }
 .dropdown-item:hover {
   background-color: var(--primary-color);
-  color: #fff;
+  color: var(--white-color);
 }
 
-/*Carousel*/
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #00d4b0;
-}
+/* Carousel color variables consolidated in final :root */
 
 .text-aqua {
   color: var(--secondary-color);
@@ -621,17 +1379,17 @@ section#buttons h2 {
 }
 
 /* Chat a la izquierda */
-.chat-bubble.start {
-  background-color: var(--secondary-color, #26c6da);
-  color: #fff;
+  .chat-bubble.start {
+  background-color: var(--secondary-color, hsl(187 69% 52%));
+  color: var(--white-color);
   align-self: flex-start;
   border-bottom-left-radius: 0;
 }
 
 /* Chat a la derecha */
 .chat-bubble.end {
-  background-color: var(--primary-color, #1e88e5);
-  color: #fff;
+  background-color: var(--primary-color, hsl(210 74% 52%));
+  color: var(--white-color);
   align-self: flex-end;
   border-bottom-right-radius: 0;
 }
@@ -644,16 +1402,16 @@ section#buttons h2 {
 
 /*CALENDARIO*/
    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-    .day-card { min-height: 120px; border: 1px solid #ccc; padding: 5px; border-radius: 5px; position: relative; background-color: var(--secondary-color, #f8f9fa); }
+  .day-card { min-height: 120px; border: 1px solid var(--border-color); padding: 5px; border-radius: 5px; position: relative; background-color: var(--secondary-color, hsl(187 69% 52%)); }
     .day-number { font-weight: bold; }
-    .event { background-color: var(--primary-color, #0d6efd); color: white; padding: 2px 6px; border-radius: 4px; margin: 2px 0; font-size: 0.85rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .event:hover::after {
+  .event { background-color: var(--primary-color, hsl(219 100% 54%)); color: var(--white-color); padding: 2px 6px; border-radius: 4px; margin: 2px 0; font-size: 0.85rem; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .event:hover::after {
         content: attr(data-desc);
         position: absolute;
         left: 0;
         top: 100%;
-        background: var(--primary-color, #0d6efd);
-        color: #fff;
+  background: var(--primary-color, hsl(219 100% 54%));
+    color: var(--white-color);
         padding: 4px 8px;
         border-radius: 4px;
         white-space: normal;
@@ -671,7 +1429,7 @@ section#buttons h2 {
   max-height: 0;
   transition: max-height 0.4s ease, padding 0.4s ease;
   padding: 0 12px;
-  background-color: #f5f5f5;
+  background-color: var(--muted-color);
   border-radius: 8px;
 }
 
@@ -716,7 +1474,7 @@ section#buttons h2 {
     border-radius: 8px;
     border: 1px solid rgba(255,255,255,0.35);
     background: transparent;
-    color: #fff;
+    color: var(--white-color);
     font-size: 1.1rem;
     cursor: pointer;
   }
@@ -799,7 +1557,7 @@ section#buttons h2 {
 .day-card { min-height: 110px; border: 1px solid var(--border-color); padding: 8px; border-radius: 10px; position: relative; background: var(--card-bg); transition: transform 0.15s ease, box-shadow 0.15s ease; overflow: hidden; }
 .day-card:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
 .day-number { font-weight:700; color: var(--text-color); margin-bottom:6px; }
-.event { display:block; padding:6px 8px; border-radius:8px; margin-bottom:6px; color:#fff; font-size:0.9rem; cursor:pointer; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; }
+.event { display:block; padding:6px 8px; border-radius:8px; margin-bottom:6px; color: var(--white-color); font-size:0.9rem; cursor:pointer; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; }
 .event.small { font-size:0.82rem; padding:4px 6px; border-radius:6px; }
 .event.primary { background: var(--primary-color); background: linear-gradient(90deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 70%, black 30%)); }
 .event.secondary { background: var(--secondary-color); background: linear-gradient(90deg, var(--secondary-color), color-mix(in srgb, var(--secondary-color) 70%, black 30%)); }
@@ -807,8 +1565,8 @@ section#buttons h2 {
 
 /* Evento marcado como terminado */
 .event.finished {
-  background: linear-gradient(90deg, #e74c3c, #c0392b) !important;
-  color: #fff !important;
+  background: linear-gradient(90deg, hsl(1 70% 52%), hsl(10 63% 45%)) !important;
+  color: var(--white-color) !important;
   opacity: 0.95;
   box-shadow: none;
 }
@@ -820,7 +1578,7 @@ section#buttons h2 {
   left: 8px;
   top: calc(100% + 6px);
   background: var(--primary-color);
-  color: #fff;
+  color: var(--white-color);
   padding: 6px 10px;
   border-radius: 8px;
   white-space: normal;
@@ -837,7 +1595,7 @@ section#buttons h2 {
 
 /* Small responsive helpers */
 @media (max-width: 960px) {
-  :root { --header-offset: 72px; }
+  /* header offset moved into consolidated :root */
 }
 
 /* Mobile offcanvas (hamburger menu) styling */
@@ -846,10 +1604,10 @@ section#buttons h2 {
 }
 #mobileSidebar .offcanvas-header {
   background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  color: #fff;
+  color: var(--white-color);
 }
 #mobileSidebar .offcanvas-title {
-  color: #fff; font-weight:600;
+  color: var(--white-color); font-weight:600;
 }
 #mobileSidebar .btn-close {
   filter: invert(1) brightness(1.4);
@@ -869,7 +1627,7 @@ section#buttons h2 {
 }
 #mobileSidebar nav a:hover {
   background: linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 90%, white 10%), var(--primary-color));
-  color: #fff;
+  color: var(--white-color);
   transform: translateY(-2px);
 }
 
@@ -879,7 +1637,7 @@ section#buttons h2 {
 }
 .menu-toggle[aria-expanded="true"] {
   background: var(--primary-color);
-  color: #fff;
+  color: var(--white-color);
   border-color: var(--primary-color);
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
@@ -890,4 +1648,35 @@ section#buttons h2 {
 /* Override: remove z-index from Bootstrap modal backdrop so it doesn't cover fixed UI layers */
 .modal-backdrop {
   z-index: auto !important;
+}
+
+/* Consolidated HSL palette (last-in-file authoritative) */
+:root {
+  /* H SL components */
+  --h-primary: 210 100% 50%;
+  --h-secondary: 174 63% 44%;
+  --h-accent: 45 100% 60%;
+  --h-text: 210 8% 13%;
+  --h-bg: 210 40% 97%;
+  --h-card-bg: 0 0% 100%;
+  --h-border: 210 16% 90%;
+  --h-success: 134 61% 41%;
+  --h-danger: 1 70% 52%;
+
+  /* Derived colors in hsl() form - used across the sheet */
+  --primary-color: hsl(var(--h-primary));
+  --secondary-color: hsl(var(--h-secondary));
+  --accent-color: hsl(var(--h-accent));
+  --text-color: hsl(var(--h-text));
+  --bg-color: hsl(var(--h-bg));
+  --card-bg: hsl(var(--h-card-bg));
+  --border-color: hsl(var(--h-border));
+  --success-color: hsl(var(--h-success));
+  --danger-color: hsl(var(--h-danger));
+
+  --white-color: hsl(0 0% 100%);
+  --black-color: hsl(0 0% 0%);
+  --muted-color: hsl(210 10% 90%);
+  --light-gray: hsl(0 0% 96%);
+  --header-offset: 72px;
 }
