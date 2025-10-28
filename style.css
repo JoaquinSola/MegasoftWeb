@@ -1307,7 +1307,7 @@ body.dark .btn-outline-secondary:hover {
 }
 .btn-outline-primary:hover {
   background-color: var(--primary-color);
-  color: var(--white-color);s
+  color: var(--white-color);
 }
 
 /* Dropdown custom */
