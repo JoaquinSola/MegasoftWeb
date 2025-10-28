@@ -299,20 +299,20 @@ body.dark section h2 { color: var(--primary-color); }
   transition: background-color 0.3s ease;
 }
 
-.primary {background-color: var(--primary-color);} 
-.primary:hover {background: color-mix(in srgb, var(--primary-color) 85%, black 10%);} 
+.primary {background-color: var(--primary-color); color: var(--white-color);} 
+.primary:hover {background: color-mix(in srgb, var(--primary-color) 85%, black 10%); color: var(--white-color);} 
 
 .secondary {background-color: var(--secondary-color); color: var(--white-color);} 
-.secondary:hover {background: var(--light-gray);} 
+.secondary:hover {background: var(--light-gray); color: var(--white-color);} 
 
-.success {background-color: var(--success-color);} 
-.success:hover {background: color-mix(in srgb, var(--success-color) 85%, black 10%);} 
+.success {background-color: var(--success-color); color: var(--white-color);} 
+.success:hover {background: color-mix(in srgb, var(--success-color) 85%, black 10%); color: var(--white-color);} 
 
-.warning {background-color: hsl(33 100% 50%);} 
-.warning:hover {background: hsl(34 100% 44%);} 
+.warning {background-color: hsl(33 100% 50%); color: var(--white-color);} 
+.warning:hover {background: hsl(34 100% 44%); color: var(--white-color);} 
 
-.danger {background-color: var(--danger-color);} 
-.danger:hover {background: color-mix(in srgb, var(--danger-color) 80%, black 12%);}
+.danger {background-color: var(--danger-color); color: var(--white-color);} 
+.danger:hover {background: color-mix(in srgb, var(--danger-color) 80%, black 12%); color: var(--white-color);}
 
 /* ======= DARK MODE BUTTONS ======= */
 body.dark .primary {
@@ -1586,6 +1586,373 @@ body.dark .btn-outline-secondary:hover {
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
   z-index: 40;
 }
+
+/* === CHIP SET === */
+.chip-set {
+  margin-bottom: 2rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* Cada chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-right: 21px; /* espacio para el check */
+  white-space: nowrap; /* evita que el texto se corte */
+}
+
+/* Colores base */
+.primary { color: var(--primary-); }
+.secondary { color: var(--secondary-color); }
+.info { color: #0288d1; }
+.success { color: #2e7d32; }
+.warning { color: #ed6c02; }
+.error { color: #d32f2f; }
+.dark { color: #212121; }
+
+/* Outlined */
+.chips.outlined .chip {
+  border: 1px solid currentColor;
+}
+
+/* Filled */
+.chips.filled .chip {
+  color: #fff;
+}
+.chips.filled .primary { background-color: var(--primary-color); }
+.chips.filled .secondary { background-color: var(--secondary-color); }
+.chips.filled .info { background-color: #0288d1; }
+.chips.filled .success { background-color: #2e7d32; }
+.chips.filled .warning { background-color: #ed6c02; }
+.chips.filled .error { background-color: #d32f2f; }
+.chips.filled .dark { background-color: #212121; }
+.chips.filled .chip:not([class*=" "]) {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* Estado seleccionado */
+.chip:has(input:checked) {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Check mark visible al seleccionar */
+.chip:has(input:checked)::after {
+  content: "✓";
+  position: absolute;
+  right: 4px; /* más prolijo en móviles */
+  font-weight: bold;
+  color: currentColor;
+}
+
+
+/*TODO ESTILO KANBAN*/
+
+.kanban-container {
+    padding: 2rem 1rem;
+    background: var(--light-bg);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.07), 0 1.5px 6px 0 rgba(0,0,0,0.04);
+    margin-bottom: 2rem;
+}
+
+
+.kanban-toolbar {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--white-color);
+    border-radius: 12px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+}
+
+body.dark .kanban-toolbar {
+    background: var(--dark-bg);
+}
+
+.kanban-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+
+.kanban-section {
+    background: var(--white-color);
+    border-radius: 14px;
+    padding: 1.5rem 1rem 1rem 1rem;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.06);
+    border: 1.5px solid var(--border-color);
+    transition: box-shadow 0.2s, border 0.2s;
+}
+.kanban-section:hover {
+    box-shadow: 0 6px 24px 0 rgba(0,0,0,0.10);
+    border-color: var(--primary-color);
+}
+
+body.dark .kanban-section {
+    background: var(--dark-bg);
+}
+
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.section-header h2::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    margin-right: 0.5em;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+
+.kanban-columns {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+
+.kanban-column {
+    flex: 1;
+    min-width: 280px;
+    background: var(--light-bg-alt);
+    padding: 1rem 0.75rem 1.5rem 0.75rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--primary-color);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s, border 0.2s;
+}
+.kanban-column h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-align: left;
+}
+.kanban-column:hover {
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+    border-color: var(--secondary-color);
+}
+
+body.dark .kanban-column {
+    background: var(--dark-bg-alt);
+}
+
+.kanban-column h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.kanban-cards {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+.kanban-card {
+    background: var(--white-color);
+    padding: 1.1rem 1rem 0.8rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.4);
+    cursor: move;
+    border-left: 5px solid var(--primary-color);
+    margin-bottom: 0.5rem;
+    transition: box-shadow 0.2s, border 0.2s;
+    position: relative;
+}
+.kanban-card:hover {
+    box-shadow: 0 6px 18px 0 rgba(0,0,0,0.13);
+    border-left: 5px solid var(--secondary-color);
+}
+.kanban-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
+}
+.kanban-card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+.kanban-card p {
+    margin: 0.5rem 0;
+    font-size: 0.97rem;
+    color: var(--text-muted);
+}
+.kanban-card .card-footer {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    margin-top: 0.5rem;
+    text-align: right;
+}
+.kanban-card .badge {
+    display: inline-block;
+    background: var(--secondary-color);
+    color: var(--white-color);
+    border-radius: 8px;
+    font-size: 0.75em;
+    padding: 0.2em 0.7em;
+    margin-left: 0.5em;
+}
+
+body.dark .kanban-card {
+    background: var(--dark-bg);
+    color: var(--white-color);
+}
+
+.kanban-card.dragging {
+    opacity: 0.5;
+}
+
+.kanban-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
+}
+
+.kanban-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.kanban-card p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.kanban-card .card-footer {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    font-size: 1.3rem;
+    padding: 0 0.5rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.delete-btn:hover {
+    background: var(--danger-color);
+    color: var(--white-color);
+}
+
+
+.add-card-btn {
+    width: 100%;
+    padding: 0.6rem;
+    background: var(--primary-color);
+    border: none;
+    color: var(--white-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
+    transition: background 0.2s, color 0.2s;
+}
+.add-card-btn:hover {
+    background: var(--secondary-color);
+    color: var(--white-color);
+}
+
+@media (max-width: 900px) {
+    .kanban-columns {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .kanban-column {
+        min-width: 0;
+    }
+    .kanban-section {
+        padding: 1rem 0.5rem;
+    }
+}
+
+/* === Modo responsive (Bootstrap-friendly) === */
+
+/* En pantallas pequeñas: más espacio entre filas y texto más chico */
+@media (max-width: 576px) {
+  .chips {
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .chip {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    padding-right: 21px;
+  }
+}
+
+/* En pantallas muy chicas: los chips ocupan toda la línea si hace falta */
+@media (max-width: 400px) {
+  .chip {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+
 
 /* adaptaciones para calendario en pantallas pequeñas */
 @media (max-width: 720px) {

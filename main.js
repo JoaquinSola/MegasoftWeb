@@ -389,8 +389,169 @@ function showNotification(message, type = 'info') {
     }
   }, 5000);
 }
+// BARRA MINI DRAWER
+// Toggle manual opcional
+const drawer = document.getElementById('drawer');
+const toggleBtn = document.getElementById('toggleDrawer');
+
+toggleBtn.addEventListener('click', () => {
+  drawer.classList.toggle('manual-open');
+});
 
 
+// ======= KANBAN / DROP ZONE =======
+(function initKanban(){
+  const board = document.getElementById('kanbanBoard');
+  if(!board) return;
+
+  const tpl = document.getElementById('kanbanItemTemplate');
+  const addSectionBtn = document.getElementById('kanbanAddSectionBtn');
+  const addSectionForm = document.getElementById('kanbanAddSectionForm');
+  const newSectionInput = document.getElementById('kanbanNewSectionName');
+  const cancelSectionBtn = document.getElementById('kanbanCancelSection');
+
+  // Seed tasks
+  const seed = [
+    { name: 'Write unit test', status: 'To Do' },
+    { name: 'Some docu stuff', status: 'To Do' },
+    { name: 'Walking the dog', status: 'To Do' },
+  ];
+
+  function createItem(title){
+    const node = tpl.content.firstElementChild.cloneNode(true);
+    node.querySelector('.title').textContent = title;
+    wireDraggable(node);
+    return node;
+  }
+
+  function wireDraggable(el){
+    el.addEventListener('dragstart', (e)=>{
+      e.dataTransfer.setData('text/plain', '__KANBAN__');
+      e.dataTransfer.setDragImage(el, 10, 10);
+      el.classList.add('dragging');
+    });
+    el.addEventListener('dragend', ()=>{
+      el.classList.remove('dragging');
+    });
+  }
+
+  function wireDropzone(zone){
+    zone.addEventListener('dragover', (e)=>{
+      e.preventDefault();
+      zone.classList.add('is-over');
+    });
+    zone.addEventListener('dragleave', ()=> zone.classList.remove('is-over'));
+    zone.addEventListener('drop', (e)=>{
+      e.preventDefault();
+      const dragging = document.querySelector('.kanban-item.dragging');
+      if(dragging){
+        zone.appendChild(dragging);
+      }
+      zone.classList.remove('is-over');
+    });
+  }
+
+  // Wire existing columns
+  board.querySelectorAll('.kanban-dropzone').forEach(zone => wireDropzone(zone));
+  // Seed initial tasks
+  seed.forEach(t => {
+    const zone = board.querySelector(`.kanban-dropzone[data-dropzone="${t.status}"]`);
+    if(zone){ zone.appendChild(createItem(t.name)); }
+  });
+
+  // Add task per column
+  board.querySelectorAll('.kanban-column').forEach(col => {
+    const addBtn = col.querySelector('.kanban-add-task');
+    const input = col.querySelector('.kanban-add input');
+    if(addBtn && input){
+      addBtn.addEventListener('click', ()=>{
+        const val = input.value.trim();
+        if(!val) return;
+        col.querySelector('.kanban-dropzone').appendChild(createItem(val));
+        input.value = '';
+      });
+    }
+    const delBtn = col.querySelector('.kanban-delete');
+    if(delBtn){
+      delBtn.addEventListener('click', ()=>{
+        if(board.querySelectorAll('.kanban-column').length <= 1){
+          // If only one section remains, clear it
+          col.querySelector('.kanban-dropzone').innerHTML='';
+          return;
+        }
+        // Reassign tasks to previous column if possible
+        const allCols = Array.from(board.querySelectorAll('.kanban-column'));
+        const idx = allCols.indexOf(col);
+        const target = allCols[idx > 0 ? idx-1 : 1]?.querySelector('.kanban-dropzone');
+        if(target){
+          target.append(...col.querySelectorAll('.kanban-item'));
+        }
+        col.remove();
+      });
+    }
+  });
+
+  // Add new section flow
+  addSectionBtn?.addEventListener('click', ()=>{
+    addSectionForm.classList.remove('d-none');
+    addSectionBtn.classList.add('d-none');
+    newSectionInput.focus();
+  });
+  cancelSectionBtn?.addEventListener('click', ()=>{
+    addSectionForm.classList.add('d-none');
+    addSectionBtn.classList.remove('d-none');
+    newSectionInput.value='';
+  });
+  addSectionForm?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const name = newSectionInput.value.trim();
+    if(!name) return;
+    const col = document.createElement('div');
+    col.className = 'kanban-column';
+    col.setAttribute('data-section', name);
+    col.innerHTML = `
+      <div class="kanban-header">
+        <h3></h3>
+        <div class="kanban-menu">
+          <button class="kanban-delete btn btn-danger btn-sm" title="Eliminar sección">×</button>
+        </div>
+      </div>
+      <div class="kanban-dropzone" data-dropzone="${name}"></div>
+      <div class="kanban-add">
+        <input type="text" class="modern-input" placeholder="Nueva tarea" maxlength="48">
+        <button class="btn btn-primary kanban-add-task">Agregar</button>
+      </div>`;
+    col.querySelector('h3').textContent = name;
+    board.appendChild(col);
+    wireDropzone(col.querySelector('.kanban-dropzone'));
+    // wire add task
+    const addBtn = col.querySelector('.kanban-add-task');
+    const input = col.querySelector('.kanban-add input');
+    addBtn.addEventListener('click', ()=>{
+      const val = input.value.trim();
+      if(!val) return;
+      col.querySelector('.kanban-dropzone').appendChild(createItem(val));
+      input.value='';
+    });
+    // wire delete
+    col.querySelector('.kanban-delete').addEventListener('click', ()=>{
+      if(board.querySelectorAll('.kanban-column').length <= 1){
+        col.querySelector('.kanban-dropzone').innerHTML='';
+        return;
+      }
+      const allCols = Array.from(board.querySelectorAll('.kanban-column'));
+      const idx = allCols.indexOf(col);
+      const target = allCols[idx > 0 ? idx-1 : 1]?.querySelector('.kanban-dropzone');
+      if(target){ target.append(...col.querySelectorAll('.kanban-item')); }
+      col.remove();
+    });
+
+    // reset form
+    addSectionForm.classList.add('d-none');
+    addSectionBtn.classList.remove('d-none');
+    newSectionInput.value='';
+  });
+})();
 
 
 

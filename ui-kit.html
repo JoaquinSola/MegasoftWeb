@@ -289,8 +289,8 @@
           <span class="progress-fill"></span>
           <span class="label-content">
             <span class="label-idle">Iniciar</span>
-            <span class="label-loading">Cargando...</span>
-            <span class="label-complete">Completado</span>
+            <span class="label-loading">Proceso</span>
+            <span class="label-complete">Listo</span>
           </span>
         </label>
       </div>
@@ -577,12 +577,103 @@
 </section>
 <br>
 
+<!-- CHIP SET -->
+ <section class="container my-5">
+  <h2 class="text-primary fw-semibold mb-4">Chip Set (solo HTML + CSS)</h2>
+
+  <!-- TEXT -->
+  <div class="chip-set">
+    <h5>Variant: Text</h5>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" hidden>Default</label>
+      <label class="chip primary"><input type="checkbox" hidden>Primary</label>
+      <label class="chip secondary"><input type="checkbox" hidden>Secondary</label>
+      <label class="chip info"><input type="checkbox" hidden>Info</label>
+      <label class="chip success"><input type="checkbox" hidden>Success</label>
+      <label class="chip warning"><input type="checkbox" hidden>Warning</label>
+      <label class="chip error"><input type="checkbox" hidden>Error</label>
+      <label class="chip dark"><input type="checkbox" hidden>Dark</label>
+    </div>
+  </div>
+
+  <!-- OUTLINED -->
+  <div class="chip-set">
+    <h5>Variant: Outlined</h5>
+    <div class="chips outlined">
+      <label class="chip"><input type="checkbox" hidden>Default</label>
+      <label class="chip primary"><input type="checkbox" hidden>Primary</label>
+      <label class="chip secondary"><input type="checkbox" hidden>Secondary</label>
+      <label class="chip info"><input type="checkbox" hidden>Info</label>
+      <label class="chip success"><input type="checkbox" hidden>Success</label>
+      <label class="chip warning"><input type="checkbox" hidden>Warning</label>
+      <label class="chip error"><input type="checkbox" hidden>Error</label>
+      <label class="chip dark"><input type="checkbox" hidden>Dark</label>
+    </div>
+  </div>
+
+  <!-- FILLED -->
+  <div class="chip-set">
+    <h5>Variant: Filled</h5>
+    <div class="chips filled">
+      <label class="chip"><input type="checkbox" hidden>Default</label>
+      <label class="chip primary"><input type="checkbox" hidden>Primary</label>
+      <label class="chip secondary"><input type="checkbox" hidden>Secondary</label>
+      <label class="chip info"><input type="checkbox" hidden>Info</label>
+      <label class="chip success"><input type="checkbox" hidden>Success</label>
+      <label class="chip warning"><input type="checkbox" hidden>Warning</label>
+      <label class="chip error"><input type="checkbox" hidden>Error</label>
+      <label class="chip dark"><input type="checkbox" hidden>Dark</label>
+    </div>
+  </div>
+</section>
+
+<!-- BARRA MINI DRAWER -->
+<section class="container my-5">
+  <h2 class="text-primary fw-semibold mb-4">Mini</h2>
+  <div class="container py-4">
+    <div class="drawer-container">
+      <!-- Drawer lateral -->
+      <div id="drawer" class="drawer d-flex flex-column">
+        <a href="#" class="nav-link"><i class="bi bi-shop"></i><span class="link-text">Store</span></a>
+        <a href="#" class="nav-link"><i class="bi bi-book"></i><span class="link-text">Library</span></a>
+        <a href="#" class="nav-link"><i class="bi bi-people"></i><span class="link-text">Community</span></a>
+      </div>
+
+      <!-- Contenido principal -->
+    </div>
+  </div>
+</section>
+
+<!-- KANBAN / DROP ZONE -->
+<section id="kanban" class="container my-5">
+  <h2 class="text-primary fw-semibold mb-3">Kanban / Drop Zone</h2>
+  <div id="kanban-board" class="kanban-container"></div>
+</section>
+
+
+
 
 
 
   </main>
-
+  
+  
+  
+  <!-- Template para item Kanban -->
+  <template id="kanbanItemTemplate">
+    <div class="kanban-item" draggable="true" role="listitem" aria-grabbed="false">
+      <span class="title"></span>
+    </div>
+  </template>
+<!-- Bootstrap icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="main.js"></script>
+  <script src="js/kanban.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      window.kanban = new KanbanBoard('kanban-board');
+    });
+  </script>
 </body>
 </html>
